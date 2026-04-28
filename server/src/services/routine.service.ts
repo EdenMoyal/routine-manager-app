@@ -1,0 +1,81 @@
+import { routineRepository } from '../repositories/routine.repo';
+import { IRoutine } from '../models/routine.model';
+
+const initialID: string = "RM000000";
+let currentID: string = initialID;
+
+// Service layer for handling routine business logic.
+
+export const routineService = {
+    // Creating a new routine
+    createNewRoutine: async (routineData: Partial<IRoutine>) => {
+        if (!routineData.assetName) throw new Error("Asset name and scheduled date are required");
+
+        let generateRoutineId = (): string =>  {
+            let extractedIDNum: number = Number(currentID.slice(2,currentID.length));
+            let newID: string = "RM" + (extractedIDNum + 1).toString().padStart(6, '0');
+
+            currentID = newID;
+            return currentID;
+        };
+
+        const newRoutine: IRoutine = {
+            routineId: generateRoutineId(),
+            assetName: routineData.assetName,
+            location: routineData.location || "",
+            scheduledDate: routineData.scheduledDate ? (new Date(routineData.scheduledDate)).toISOString() : (new Date()).toISOString(),
+            duration: routineData.duration || 0,
+            isCompleted: routineData.isCompleted || false,
+            completedBy: routineData.completedBy || "",
+            completionDate: routineData.completionDate || ""
+        };
+        return await routineRepository.create(newRoutine);
+    },
+
+    // Updating a routine
+    updateRoutine: async (id: string, updateData: Partial<IRoutine>) => {
+        if (updateData.isCompleted === true) {
+            updateData.completionDate = (new Date()).toISOString();
+        }
+        return await routineRepository.update(id, updateData);
+    },
+
+    // Splitting routines into scheduled and history
+    getAllRoutinesSplitted: async () => {
+        const allRoutines = await routineRepository.findAll();
+        const scheduled = allRoutines.filter(routine => !routine.isCompleted);
+        const history = allRoutines.filter(routine => routine.isCompleted);
+        
+        return { scheduled, history };
+    },
+
+    // Getting routine by id
+    getRoutineById: async (id: string) => {
+        const allRoutines = await routineRepository.findAll();
+        return allRoutines.find(routine => routine._id?.toString() === id);
+    },
+
+    // Searching routines by asset name
+    searchRoutines: async (assetName: string) => {
+        const allRoutines = await routineRepository.findAll();
+        const foundRoutines = allRoutines.filter(routine => routine.assetName.toLowerCase().includes(assetName.toLowerCase()));
+
+        return { foundRoutines }
+    },
+
+    // Filtering routines by scheduledDate (month and year) %%
+    filterRoutines: async (filterYear: string, filterMonth: string) => {
+        return await routineRepository.filter(filterYear, filterMonth);
+    },
+
+    // Sorting routines by assetName or scheduledDate %%
+    sortRoutines: async (sortKey: any) => {
+        return await routineRepository.sort(sortKey);
+    },
+
+    // Deleting all routines
+    deleteAllRoutines: async () => {
+        return await routineRepository.deleteAll();
+    }
+
+};
