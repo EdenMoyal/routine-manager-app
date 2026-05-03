@@ -4,7 +4,7 @@ dotenv.config();  // Reads the .env file from the root directory, parses the con
 import { app } from "./app";
 import { connectDB } from "./config/db";
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT;
 
 const startServer = async () => {
   try {

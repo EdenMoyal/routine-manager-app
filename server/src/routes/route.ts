@@ -18,13 +18,13 @@ routineRoutes.get('/', routineController.getAllC);
 routineRoutes.get('/:id', routineController.getByIdC);
 
 // Route to search routines by asset name
-routineRoutes.get('/search/:assetName/', routineController.searchC);
+routineRoutes.get('/search/:assetName', routineController.searchC);
 
 // Route to filter routines
-routineRoutes.get('/filter/:filterYear-:filterMonth/', routineController.filterC);
+routineRoutes.get('/filter/:filterYear-:filterMonth', routineController.filterC);
 
 // Route to sort routines
-routineRoutes.get('/sort/:sortKey/', routineController.sortC);
+routineRoutes.get('/sort/:sortKey', routineController.sortC);
 
 // Route to delete all routines
 routineRoutes.delete('/', routineController.deleteAllC);

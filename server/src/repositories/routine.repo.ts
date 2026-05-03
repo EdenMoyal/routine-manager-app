@@ -34,7 +34,7 @@ export const routineRepository = {
         return await db.collection<IRoutine>(COLLECTION_NAME).find({ assetName }).toArray();
     },
 
-    // Filter routines by scheduledDate (month and year) %%
+    // Filter routines by scheduledDate (month and year)
     filter: async (filterYear: string, filterMonth: string) => {
         const db = getDB();
         const filteredByYear = await db.collection<IRoutine>(COLLECTION_NAME).find({ scheduledDate: { $regex: `^${filterYear}` } }).toArray();

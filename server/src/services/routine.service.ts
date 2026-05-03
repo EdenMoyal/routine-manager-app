@@ -1,7 +1,7 @@
 import { routineRepository } from '../repositories/routine.repo';
 import { IRoutine } from '../models/routine.model';
 
-const initialID: string = "RM000000";
+const initialID: string = "MR000000";
 let currentID: string = initialID;
 
 // Service layer for handling routine business logic.
@@ -13,7 +13,7 @@ export const routineService = {
 
         let generateRoutineId = (): string =>  {
             let extractedIDNum: number = Number(currentID.slice(2,currentID.length));
-            let newID: string = "RM" + (extractedIDNum + 1).toString().padStart(6, '0');
+            let newID: string = "MR" + (extractedIDNum + 1).toString().padStart(6, '0');
 
             currentID = newID;
             return currentID;
@@ -58,12 +58,12 @@ export const routineService = {
     // Searching routines by asset name
     searchRoutines: async (assetName: string) => {
         const allRoutines = await routineRepository.findAll();
-        const foundRoutines = allRoutines.filter(routine => routine.assetName.toLowerCase().includes(assetName.toLowerCase()));
+        const foundRoutines = allRoutines.find(routine => routine.assetName.toLowerCase().includes(assetName.toLowerCase()));
 
         return { foundRoutines }
     },
 
-    // Filtering routines by scheduledDate (month and year) %%
+    // Filtering routines by scheduledDate (month and year)
     filterRoutines: async (filterYear: string, filterMonth: string) => {
         return await routineRepository.filter(filterYear, filterMonth);
     },

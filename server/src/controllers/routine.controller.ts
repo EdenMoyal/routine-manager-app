@@ -54,7 +54,7 @@ export const routineController = {
     // Controller for getting routine by asset name
     searchC: async (req: Request, res: Response) => {
         try {
-            const searchParam = req.body.assetName;
+            const searchParam = req.params.assetName as string;
             const result = await routineService.searchRoutines(searchParam);
             res.status(200).json(result);
         } catch (error: any) {
