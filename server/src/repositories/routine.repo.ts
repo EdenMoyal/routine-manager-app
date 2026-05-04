@@ -22,10 +22,16 @@ export const routineRepository = {
         );
     },
 
-    // Find all routines in the collection
+    // Get all routines in the collection
     findAll: async () => {
         const db = getDB();
         return await db.collection<IRoutine>(COLLECTION_NAME).find().toArray();
+    },
+
+    // Get a routine by its id
+    findById: async (id: ObjectId) => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).findOne({ _id: id });
     },
 
     // Search routines by assetName
