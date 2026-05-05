@@ -1,7 +1,11 @@
 import { getRoutineById } from "../api";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function displayRoutineData(id: string) {
+interface DisplayId {
+    id: string;
+}
+
+export default function DisplayRoutineData({ id }: DisplayId) {
     let [routineData, setRoutineData] = useState({
             routineId: "" as string,
             assetName: "" as string,
@@ -13,25 +17,29 @@ export default function displayRoutineData(id: string) {
             completionDate: "" as string
         });
     
-        const fetchRoutineData = async () => {
-            try {
-                const response = await getRoutineById(id);
-                setRoutineData(response.data);
-            } catch (error) {
-                console.error("Error fetching routine data:", error);
+        // Fetch the routine data by selected id
+        useEffect(() => {
+            const fetchRoutineData = async () => {
+                try {
+                    const response = await getRoutineById(id);
+                    setRoutineData(response.data);
+                } catch (error) {
+                    console.error("Error fetching routine data:", error);
+                }
             }
-        };
-
-        fetchRoutineData();
+            if (id) {
+                fetchRoutineData();
+            }
+        }, [id]);
 
     return (
         <div className="routine-card">
             <h2>פרטי טיפול</h2>
-            <p>מספר טיפול: {routineData.routineId}</p>
-            <p>שם נכס: {routineData.assetName}</p>
-            <p>מיקום: {routineData.location}</p>
-            <p>תאריך מתוכנן: {routineData.scheduledDate}</p>
-            <p>משך זמן: {routineData.duration} דקות</p>
+            <p><b>מספר טיפול:</b> {routineData.routineId}</p>
+            <p><b>שם נכס:</b> {routineData.assetName}</p>
+            <p><b>מחלקה/קו:</b> {routineData.location}</p>
+            <p><b>תאריך מתוכנן:</b> {routineData.scheduledDate?.toString().replace(/T.*/,'').split('-').reverse().join('-')}</p>
+            <p><b>משך זמן:</b> {routineData.duration} שעות</p>
         </div>
     )
 }

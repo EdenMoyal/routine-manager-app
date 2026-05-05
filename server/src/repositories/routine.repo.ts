@@ -28,6 +28,18 @@ export const routineRepository = {
         return await db.collection<IRoutine>(COLLECTION_NAME).find().toArray();
     },
 
+    // Get scheduled routines
+    findScheduled: async () => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).find({ isCompleted: false }).toArray();
+    },
+
+    // get history routines
+    findHistory: async () => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).find({ isCompleted: true }).toArray();
+    },
+
     // Get a routine by its id
     findById: async (id: ObjectId) => {
         const db = getDB();

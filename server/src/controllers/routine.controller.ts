@@ -37,6 +37,26 @@ export const routineController = {
         }
     },
 
+    // Controller for getting scheduled routines
+    getScheduledC: async (req: Request, res: Response) => {
+        try {
+            const scheduledRoutines = await routineService.getScheduledRoutines();
+            res.status(200).json(scheduledRoutines);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    // Controller for getting history routines
+    getHistoryC: async (req: Request, res: Response) => {
+        try {
+            const historyRoutines = await routineService.getHistoryRoutines();
+            res.status(200).json(historyRoutines);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
     // Controller for getting routine by id
     getByIdC: async (req: Request, res: Response) => {
         try {

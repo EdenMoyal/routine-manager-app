@@ -1,6 +1,5 @@
 import { routineRepository } from '../repositories/routine.repo';
 import { IRoutine } from '../models/routine.model';
-import { ObjectId } from 'mongodb';
 
 const initialID: string = "MR000000";
 let currentID: string = initialID;
@@ -48,6 +47,16 @@ export const routineService = {
         const history = allRoutines.filter(routine => routine.isCompleted);
         
         return { scheduled, history };
+    },
+
+    // Getting scheduled routines
+    getScheduledRoutines: async () => {
+        return await routineRepository.findScheduled();
+    },
+
+    // Getting history routines
+    getHistoryRoutines: async () => {
+        return await routineRepository.findHistory();
     },
 
     // Getting routine by id

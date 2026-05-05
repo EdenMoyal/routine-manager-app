@@ -20,7 +20,7 @@ export const getDB = (): Db => {
 
 // Check if MONGO_URI is being read correctly
 const uri = process.env.MONGO_URI;
-console.log("Checking URI"); // if this logs undefined, it means the .env file is not being read correctly or MONGO_URI is missing
+console.log("Checking URI");
 
 if (!uri) {
     throw new Error("MONGO_URI is not defined in .env file");

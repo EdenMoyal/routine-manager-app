@@ -14,6 +14,12 @@ routineRoutes.patch('/:id', routineController.updateC);
 // Route to get all routines (splitted into scheduled and history)
 routineRoutes.get('/', routineController.getAllC);
 
+// Route to get scheduled routines
+routineRoutes.get('/scheduled', routineController.getScheduledC);
+
+// Route to get history routines
+routineRoutes.get('/history', routineController.getHistoryC);
+
 // Route to get routine by id
 routineRoutes.get('/:id', routineController.getByIdC);
 
