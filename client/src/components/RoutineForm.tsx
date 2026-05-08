@@ -66,9 +66,14 @@ export default function CreateRoutine() {
                     step={0.5}
                     required />
 
-                <button type="button" onClick={() => setRoutine({ ...routine, assetName: "", location: "", scheduledDate: "", duration: 0 })}>איפוס נתונים</button>
+                <button type="button"
+                        onClick={() => setRoutine({ ...routine, assetName: "", location: "", scheduledDate: "", duration: 0 })}>
+                        איפוס נתונים
+                </button>
 
-                <button type="submit">צור טיפול</button>
+                <button type="submit">
+                        צור טיפול
+                </button>
             </form>
         </div>
     )
