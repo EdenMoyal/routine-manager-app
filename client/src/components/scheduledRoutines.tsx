@@ -1,16 +1,17 @@
-import { getScheduledRoutines } from '../api';
+import { getScheduledRoutines, searchRoutines, filterRoutines, sortRoutines } from '../api';
 import { useEffect, useState } from 'react';
 
 export default function ScheduledRoutines() {
-    let [routineData, setRoutineData] = useState([
-        {
-            routineId: "" as string,
-            assetName: "" as string,
-            location: "" as string,
-            scheduledDate: "" as string,
-            duration: 0 as number
-        }
-    ]);
+    interface Routine {
+        routineId: string;
+        assetName: string;
+        location: string;
+        scheduledDate: string;
+        duration: number;
+    }
+    let [routineData, setRoutineData] = useState<Routine[]>([]);
+
+    const [searchInput, setSearchInput] = useState('');
 
     useEffect(() => {
         const fetchRoutineData = async () => {
@@ -24,9 +25,21 @@ export default function ScheduledRoutines() {
         fetchRoutineData();
     }, []);
 
-    useEffect(() => {
-        
-        })
+
+    const handleSearch = async (query: string) => {
+        try {
+            const response = await searchRoutines(query);
+            
+            if (Array.isArray(response.data)) {
+                setRoutineData(response.data);
+            } else {
+                console.error("Expected an array but got:", response.data);
+                setRoutineData([]);
+            }
+        } catch (error) {
+            console.error("Search failed", error);
+        }
+    };
 
 
     return (
@@ -37,31 +50,26 @@ export default function ScheduledRoutines() {
                 {/* Search operation */}
                 <div className="operation" style={{display: "flex", flexDirection: "column", alignItems: "right"}}>
                     <label>חיפוש לפי שם נכס</label>
-                    <input type="text" placeholder="הזן שם נכס" id="search-assetname-input" />
-                    <button id="search-btn">חיפוש</button>
+                    <input type="text" id="search-assetname-input" placeholder="הזן שם נכס" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
+                    <button id="search-btn" onClick={() => handleSearch(searchInput)}>חיפוש</button>
                 </div>
 
                 {/* Filter operation */}
                 <div className="operation">
-                    <label>סינון לפי</label>
-                    <select name="filter" id="filter">
-                        <option value="all" defaultChecked>הצג הכל</option>
-                        <option value="date">
-                            תאריך מתוכנן
-                        </option>
-                    </select>
-                    <input type="month" />
+                    <label>סינון לפי חודש ושנה</label>
+                    <input type="month" id="date-input" onChange={(e) => filterRoutines(
+                        parseInt(e.target.value.split('-')[0]),
+                        parseInt(e.target.value.split('-')[1])
+                        )}/>
                 </div>
 
                 {/* Sort operation */}
                 <div className="operation">
-                    <label>מיון לפי</label>
-                    <select name="sort" id="sort">
-                        <option value="scheduledDate" defaultChecked>תאריך מתוכנן</option>
-                        <option value="assetName">שם נכס</option>
-                    </select>
+                    <label>מיון לפי תאריך מתוכנן</label>
+                    <button id="sort-btn" onClick={() => sortRoutines("scheduledDate")}>מיון</button>
                 </div>
             </div>
+
 
             {/*Scheduled Routines Table*/}
             <div className="table-container"
@@ -80,11 +88,11 @@ export default function ScheduledRoutines() {
                     <tbody>
                         {routineData.map((routine, index) => (
                             <tr key={index}>
-                                <th>{routine.routineId}</th>
-                                <th>{routine.assetName}</th>
-                                <th>{routine.location}</th>
-                                <th>{routine.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</th>
-                                <th>{routine.duration}</th>
+                                <td>{routine.routineId}</td>
+                                <td>{routine.assetName}</td>
+                                <td>{routine.location}</td>
+                                <td>{routine.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</td>
+                                <td>{routine.duration}</td>
                             </tr>
                         ))}
                     </tbody>

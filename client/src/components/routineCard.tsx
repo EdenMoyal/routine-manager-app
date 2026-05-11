@@ -41,6 +41,9 @@ export default function DisplayRoutineData(props: IProps) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
+            style={{margin: "auto", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", 
+                    width: "fit-content", minWidth: "600px", height: "fit-content", minHeight: "400px", 
+                    backgroundColor: "white", borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,.5)"}}
         >
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -53,7 +56,7 @@ export default function DisplayRoutineData(props: IProps) {
                     <p><b>שם נכס:</b> {routineData.assetName}</p>
                     <p><b>מחלקה/קו:</b> {routineData.location}</p>
                     <p><b>תאריך מתוכנן:</b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
-                    <p><b>משך זמן:</b> {routineData.duration} שעות</p>
+                    <p><b>משך טיפול:</b> {routineData.duration} שעות</p>
                 </div>
             </Modal.Body>
             <Modal.Footer>

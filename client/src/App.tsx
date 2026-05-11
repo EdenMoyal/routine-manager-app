@@ -4,14 +4,17 @@ import RoutineCard from './components/RoutineCard';
 import Button from 'react-bootstrap/esm/Button';
 import ScheduledRoutines from './components/ScheduledRoutines';
 import RoutineForm from './components/RoutineForm';
+import Routines from './components/Routines';
 
 function App() {
   const [modalShow, setModalShow] = useState(false);
   return (
     <>
       <h1>מערכת ניהול טיפולים</h1>
+
+      <Routines />
       
-      <ScheduledRoutines />
+      {/* <ScheduledRoutines /> */}
 
       <hr />
 
