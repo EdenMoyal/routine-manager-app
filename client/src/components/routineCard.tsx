@@ -1,4 +1,4 @@
-import { getRoutineById } from "../api";
+import { getRoutineById, updateRoutine } from "../api";
 import { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
@@ -10,6 +10,7 @@ interface IProps {
 
 export default function DisplayRoutineData(props: IProps) {
     let [routineData, setRoutineData] = useState({
+        _id: "" as string,
         routineId: "" as string,
         assetName: "" as string,
         location: "" as string,
@@ -35,6 +36,21 @@ export default function DisplayRoutineData(props: IProps) {
         }
     }, [props.id]);
 
+    const handleComplete = async () => {
+        if (!props.id) return;
+        console.log("ID checking:", props.id, routineData.completedBy);
+        try {
+            await updateRoutine(props.id, {
+                isCompleted: true,
+                completedBy: routineData.completedBy
+            });
+            props.onHide();
+            
+        } catch (error) {
+            console.error("שגיאה בעדכון:", error);
+        }
+    };
+
     return (
         <Modal
             {...props}
@@ -57,6 +73,22 @@ export default function DisplayRoutineData(props: IProps) {
                     <p><b>מחלקה/קו:</b> {routineData.location}</p>
                     <p><b>תאריך מתוכנן:</b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
                     <p><b>משך טיפול:</b> {routineData.duration} שעות</p>
+                    <div>
+                        <label className="form-label"><b>שם מבצע:</b></label>
+                        <input 
+                            type="text" 
+                            className={`form-control ${!routineData.completedBy ? 'is-invalid' : 'is-valid'}`}
+                            placeholder="הזן שם מבצע..." 
+                            value={routineData.completedBy || ''} 
+                            onChange={(e) => setRoutineData({...routineData, completedBy: e.target.value})}
+                        />
+                    </div>
+                    <button
+                        onClick={handleComplete}
+                        disabled={!routineData.completedBy || routineData.completedBy.trim() === ''}
+                    >
+                        אישור ביצוע וסגירה
+                    </button>
                 </div>
             </Modal.Body>
             <Modal.Footer>

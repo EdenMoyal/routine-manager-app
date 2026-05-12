@@ -1,18 +1,62 @@
-import { getScheduledRoutines, searchRoutines, filterRoutines, sortRoutines } from '../api';
-import { useEffect, useState } from 'react';
+import DataTable from 'react-data-table-component';
+import { useEffect, useMemo, useState } from 'react';
+import { getScheduledRoutines } from '../api';
+import RoutineCard from './RoutineCard';
+
+const ScheduledRoutinesTable = (DataTable as any).default || DataTable;
 
 export default function ScheduledRoutines() {
-    interface Routine {
-        routineId: string;
-        assetName: string;
-        location: string;
-        scheduledDate: string;
-        duration: number;
-    }
     let [routineData, setRoutineData] = useState<Routine[]>([]);
+    const [selectedRow, setSelectedRow] = useState<Routine | null>(null);
+    const [modalShow, setModalShow] = useState(false);
+    const [selectedDate, setSelectedDate] = useState<{year: number, month: number} | null>(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const [searchInput, setSearchInput] = useState('');
+    interface Routine {
+            _id: string;
+            routineId: string;
+            assetName: string;
+            location: string;
+            scheduledDate: string;
+            duration: number;
+            isCompleted: boolean,
+            completedBy: string,
+            completionDate: string
+        }
 
+    const columns = [
+        {
+            name: 'מספר טיפול',
+            selector: (row: Routine) => row.routineId,
+            sortable: true,
+        },
+        {
+            name: 'שם נכס',
+            selector: (row: Routine) => row.assetName,
+            sortable: true,
+        },
+        {
+            name: 'מחלקה/קו',
+            selector: (row: Routine) => row.location,
+            sortable: true,
+        },
+        {
+            name: 'תאריך מתוכנן',
+            selector: (row: Routine) => row.scheduledDate,
+            format: (row: Routine) => {
+                const date = new Date(row.scheduledDate);
+                return date.toLocaleDateString('en-GB');
+            },
+            sortable: true,
+        },
+        {
+            name: 'משך טיפול [שעות]',
+            selector: (row: Routine) => row.duration,
+            sortable: true,
+        }
+    ];
+
+    // Fetch all scheduled routines data
     useEffect(() => {
         const fetchRoutineData = async () => {
             try {
@@ -25,79 +69,86 @@ export default function ScheduledRoutines() {
         fetchRoutineData();
     }, []);
 
-
-    const handleSearch = async (query: string) => {
-        try {
-            const response = await searchRoutines(query);
-            
-            if (Array.isArray(response.data)) {
-                setRoutineData(response.data);
-            } else {
-                console.error("Expected an array but got:", response.data);
-                setRoutineData([]);
+    // Filter and search logic
+    const filteredRoutines = useMemo(() => {
+        return routineData.filter(item => {
+            let matchesDate = true;
+            if (selectedDate) {
+                const itemDate = new Date(item.scheduledDate);
+                matchesDate = itemDate.getFullYear() === selectedDate.year && 
+                            (itemDate.getMonth() + 1) === selectedDate.month;
             }
-        } catch (error) {
-            console.error("Search failed", error);
-        }
-    };
 
+            const matchesSearch = item.assetName
+                .toLowerCase()
+                .includes(searchQuery.toLowerCase());
 
+            return matchesDate && matchesSearch;
+        });
+    }, [routineData, selectedDate, searchQuery]);
+
+    
     return (
-        <div>
+        <>
             <h2>טיפולים מתוכננים</h2>
 
-            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "space-evenly"}}>
-                {/* Search operation */}
-                <div className="operation" style={{display: "flex", flexDirection: "column", alignItems: "right"}}>
-                    <label>חיפוש לפי שם נכס</label>
-                    <input type="text" id="search-assetname-input" placeholder="הזן שם נכס" value={searchInput} onChange={(e) => setSearchInput(e.target.value)}/>
-                    <button id="search-btn" onClick={() => handleSearch(searchInput)}>חיפוש</button>
+            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px"}}>
+                {/* Searching Operation */}
+                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                    <label>חיפוש לפי שם נכס:</label>
+                    <input 
+                        type="text"
+                        placeholder="הזן שם נכס"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                 </div>
-
-                {/* Filter operation */}
-                <div className="operation">
-                    <label>סינון לפי חודש ושנה</label>
-                    <input type="month" id="date-input" onChange={(e) => filterRoutines(
-                        parseInt(e.target.value.split('-')[0]),
-                        parseInt(e.target.value.split('-')[1])
-                        )}/>
-                </div>
-
-                {/* Sort operation */}
-                <div className="operation">
-                    <label>מיון לפי תאריך מתוכנן</label>
-                    <button id="sort-btn" onClick={() => sortRoutines("scheduledDate")}>מיון</button>
+                
+                {/* Filtering Operation */}
+                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                    <label>סינון לפי חודש ושנה:</label>
+                    <input 
+                        type="month"
+                        onChange={(e) => {
+                            if (!e.target.value) {
+                                setSelectedDate(null);
+                                return;
+                            }
+                            const [year, month] = e.target.value.split("-");
+                            setSelectedDate({ year: parseInt(year), month: parseInt(month) });
+                        }}
+                    />
                 </div>
             </div>
 
 
-            {/*Scheduled Routines Table*/}
-            <div className="table-container"
-                 style={{margin:"0 auto", padding:"10px", border:"2px solid grey", borderRadius:"5px", maxWidth:"1000px", width:"100%", maxHeight:"400px", overflowY:"auto"}}>
-                <table className="routines-table"
-                       style={{tableLayout: "fixed", margin:"0 auto", padding:"10px", width:"100%", textAlign:"center", justifyContent:"center", alignItems:"center"}}>
-                    <thead>
-                        <tr style={{color:"#007bff"}}>
-                            <th>מספר טיפול</th>
-                            <th>שם נכס</th>
-                            <th>מחלקה/קו</th>
-                            <th>תאריך מתוכנן</th>
-                            <th>משך טיפול [שעות]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {routineData.map((routine, index) => (
-                            <tr key={index}>
-                                <td>{routine.routineId}</td>
-                                <td>{routine.assetName}</td>
-                                <td>{routine.location}</td>
-                                <td>{routine.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</td>
-                                <td>{routine.duration}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+{/* maxHeight:"400px", overflowY:"auto", */}
+            {/* Scheduled Routines Table */}
+            <div style={{ border: "2px solid #ccc", borderRadius: "5px"}}>
+                <ScheduledRoutinesTable
+                    columns={columns}
+                    data={filteredRoutines}
+                    // fixedHeader
+                    striped
+                    pagination
+                    highlightOnHover
+                    pointerOnHover
+                    noDataComponent={"אין טיפולים מתוכננים להצגה"}
+                    onRowClicked={(row: Routine) => {
+                        setSelectedRow(row);
+                        setModalShow(true);
+                    }}
+                />
+
+                {/* Modal to display selected routine data */}
+                {selectedRow && (
+                    <RoutineCard
+                        id={selectedRow._id}
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                    />
+                )}
             </div>
-        </div>
+        </>
     )
 }
