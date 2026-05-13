@@ -5,7 +5,7 @@ const api = axios.create({
 });
 
 export const createRoutine = (data: any) => api.post("/", data);
-export const updateRoutine = (id: string, data: any) => api.put(`/${id}`, data);
+export const updateRoutine = (id: string, data: any) => api.patch(`/${id}`, data);
 export const getAllRoutines = () => api.get("/");
 export const getScheduledRoutines = () => api.get("/scheduled");
 export const getHistoryRoutines = () => api.get("/history");

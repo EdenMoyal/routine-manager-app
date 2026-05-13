@@ -78,11 +78,9 @@ export default function ScheduledRoutines() {
                 matchesDate = itemDate.getFullYear() === selectedDate.year && 
                             (itemDate.getMonth() + 1) === selectedDate.month;
             }
-
             const matchesSearch = item.assetName
                 .toLowerCase()
                 .includes(searchQuery.toLowerCase());
-
             return matchesDate && matchesSearch;
         });
     }, [routineData, selectedDate, searchQuery]);
@@ -95,7 +93,7 @@ export default function ScheduledRoutines() {
             <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px"}}>
                 {/* Searching Operation */}
                 <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
-                    <label>חיפוש לפי שם נכס:</label>
+                    <label>חפש שם נכס:</label>
                     <input 
                         type="text"
                         placeholder="הזן שם נכס"
@@ -106,7 +104,7 @@ export default function ScheduledRoutines() {
                 
                 {/* Filtering Operation */}
                 <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
-                    <label>סינון לפי חודש ושנה:</label>
+                    <label>סנן לפי חודש ושנה:</label>
                     <input 
                         type="month"
                         onChange={(e) => {

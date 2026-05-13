@@ -36,16 +36,15 @@ export default function DisplayRoutineData(props: IProps) {
         }
     }, [props.id]);
 
+    // Handle update of routine data
     const handleComplete = async () => {
         if (!props.id) return;
-        console.log("ID checking:", props.id, routineData.completedBy);
         try {
             await updateRoutine(props.id, {
                 isCompleted: true,
                 completedBy: routineData.completedBy
             });
             props.onHide();
-            
         } catch (error) {
             console.error("שגיאה בעדכון:", error);
         }
@@ -62,37 +61,39 @@ export default function DisplayRoutineData(props: IProps) {
                     backgroundColor: "white", borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,.5)"}}
         >
             <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title style={{fontSize: "24px", fontWeight: "bold", padding: "10px"}}>
                     פרטי טיפול
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="routine-card">
-                    <p><b>מספר טיפול:</b> {routineData.routineId}</p>
-                    <p><b>שם נכס:</b> {routineData.assetName}</p>
-                    <p><b>מחלקה/קו:</b> {routineData.location}</p>
-                    <p><b>תאריך מתוכנן:</b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
-                    <p><b>משך טיפול:</b> {routineData.duration} שעות</p>
-                    <div>
-                        <label className="form-label"><b>שם מבצע:</b></label>
+                <div className="routine-card" style={{display: "flex", flexDirection: "column", gap: "15px", padding: "20px"}}>
+                    <p><b>מספר טיפול: </b> {routineData.routineId}</p>
+                    <p><b>שם נכס: </b> {routineData.assetName}</p>
+                    <p><b>מחלקה/קו: </b> {routineData.location}</p>
+                    <p><b>תאריך מתוכנן: </b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
+                    <p><b>משך טיפול: </b> {routineData.duration} שעות</p>
+                    <p><b>שם מבצע: </b> {routineData.completedBy}</p>
+                    <div style={{display:"flex", gap: "10px"}}>
                         <input 
-                            type="text" 
-                            className={`form-control ${!routineData.completedBy ? 'is-invalid' : 'is-valid'}`}
-                            placeholder="הזן שם מבצע..." 
-                            value={routineData.completedBy || ''} 
+                            type="text"
+                            placeholder="הזן שם מבצע..."
+                            value={routineData.completedBy || ''}
                             onChange={(e) => setRoutineData({...routineData, completedBy: e.target.value})}
+                            hidden={routineData.isCompleted}
                         />
+                        <button
+                            onClick={handleComplete}
+                            disabled={!routineData.completedBy || routineData.completedBy.trim() === ''}
+                            hidden={routineData.isCompleted}
+                        >
+                            אישור ביצוע וסגירה
+                        </button>
                     </div>
-                    <button
-                        onClick={handleComplete}
-                        disabled={!routineData.completedBy || routineData.completedBy.trim() === ''}
-                    >
-                        אישור ביצוע וסגירה
-                    </button>
+                    
                 </div>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
+                <Button onClick={props.onHide} style={{direction: "ltr"}}>סגירה</Button>
             </Modal.Footer>
         </Modal>
     )
