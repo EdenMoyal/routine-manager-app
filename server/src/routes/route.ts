@@ -21,7 +21,7 @@ routineRoutes.get('/scheduled', routineController.getScheduledC);
 routineRoutes.get('/history', routineController.getHistoryC);
 
 // Route to get routine by id
-routineRoutes.get('/:id', routineController.getByIdC);
+routineRoutes.get('/id=:id', routineController.getByIdC);
 
 // Route to search routines by asset name
 routineRoutes.get('/search/:assetName', routineController.searchC);
@@ -34,5 +34,11 @@ routineRoutes.get('/sort/:sortKey', routineController.sortC);
 
 // Route to delete all routines
 routineRoutes.delete('/', routineController.deleteAllC);
+
+// Route to get upcoming routines (for dashboard preview)
+routineRoutes.get('/upcoming', routineController.getUpcomingC);
+
+// Route to get recent completed routines (for dashboard preview)
+routineRoutes.get('/recent-completed', routineController.getRecentCompletedC);
 
 export default routineRoutes;

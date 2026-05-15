@@ -6,7 +6,7 @@ import RoutineCard from './RoutineCard';
 const HistoryRoutinesTable = (DataTable as any).default || DataTable;
 
 export default function HistoryRoutines() {
-    let [routineData, setRoutineData] = useState<Routine[]>([]);
+    const [routineData, setRoutineData] = useState<Routine[]>([]);
     const [selectedRow, setSelectedRow] = useState<Routine | null>(null);
     const [modalShow, setModalShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState<{year: number, month: number} | null>(null);
@@ -90,7 +90,8 @@ export default function HistoryRoutines() {
         <>
             <h2>היסטוריית טיפולים</h2>
 
-            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px"}}>
+            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px", marginBottom: "10px"}}>
+                
                 {/* Searching Operation */}
                 <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
                     <label>חפש שם נכס:</label>
@@ -122,11 +123,10 @@ export default function HistoryRoutines() {
 
 {/* maxHeight:"400px", overflowY:"auto", */}
             {/* History Routines Table */}
-            <div style={{ border: "2px solid #ccc", borderRadius: "5px"}}>
+            <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
                 <HistoryRoutinesTable
                     columns={columns}
                     data={filteredRoutines}
-                    // fixedHeader
                     striped
                     pagination
                     highlightOnHover

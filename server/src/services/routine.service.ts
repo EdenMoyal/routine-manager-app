@@ -45,7 +45,6 @@ export const routineService = {
         const allRoutines = await routineRepository.findAll();
         const scheduled = allRoutines.filter(routine => !routine.isCompleted);
         const history = allRoutines.filter(routine => routine.isCompleted);
-        
         return { scheduled, history };
     },
 
@@ -67,9 +66,7 @@ export const routineService = {
 
     // Searching routines by asset name
     searchRoutines: async (assetName: string) => {
-        const allRoutines = await routineRepository.findAll();
-        const foundRoutines = allRoutines.find(routine => routine.assetName.toLowerCase().includes(assetName.toLowerCase()));
-
+        const foundRoutines = await routineRepository.search(assetName);
         return { foundRoutines }
     },
 
@@ -86,6 +83,16 @@ export const routineService = {
     // Deleting all routines
     deleteAllRoutines: async () => {
         return await routineRepository.deleteAll();
+    },
+
+    // Getting upcoming routines (for dashboard preview)
+    findUpcomingRoutines: async () => {
+        return await routineRepository.findUpcoming();
+    },
+
+    // Getting recent completed routines (for dashboard preview)
+    findRecentCompletedRoutines: async () => {
+        return await routineRepository.findRecentCompleted();
     }
 
 };

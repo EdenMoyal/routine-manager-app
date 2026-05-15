@@ -18,7 +18,7 @@ export const routineController = {
     // Controller for updating a routine by its id
     updateC: async (req: Request, res: Response) => {
         try {
-            const id = req.params.id as string; // %%
+            const id = req.params.id as string;
             const updateData = req.body;
             const result = await routineService.updateRoutine(id, updateData);
             res.status(200).json(result);
@@ -110,6 +110,26 @@ export const routineController = {
     deleteAllC: async (req: Request, res: Response) => {
         try {
             const result = await routineService.deleteAllRoutines();
+            res.status(200).json(result);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    // Controller for getting upcoming routines (for dashboard preview)
+    getUpcomingC: async (req: Request, res: Response) => {
+        try {
+            const result = await routineService.findUpcomingRoutines();
+            res.status(200).json(result);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    // Controller for getting recent completed routines (for dashboard preview)
+    getRecentCompletedC: async (req: Request, res: Response) => {
+        try {
+            const result = await routineService.findRecentCompletedRoutines();
             res.status(200).json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

@@ -50,6 +50,7 @@ export default function DisplayRoutineData(props: IProps) {
         }
     };
 
+
     return (
         <Modal
             {...props}

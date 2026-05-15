@@ -47,7 +47,7 @@ export const routineRepository = {
     },
 
     // Search routines by assetName
-    find: async (assetName: string) => {
+    search: async (assetName: string) => {
         const db = getDB();
         return await db.collection<IRoutine>(COLLECTION_NAME).find({ assetName }).toArray();
     },
@@ -73,6 +73,19 @@ export const routineRepository = {
     deleteAll: async () => {
         const db = getDB();
         return await db.collection<IRoutine>(COLLECTION_NAME).deleteMany({});
+    },
+
+    // Get upcoming routines (for dshboard preview)
+    findUpcoming: async () => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).find({ isCompleted: false }).sort({ scheduledDate: 1 }).limit(5).toArray();
+    },
+
+    // Get recent completed routines (for dshboard preview)
+    findRecentCompleted: async () => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).find({ isCompleted: true }).sort({ completionDate: -1 }).limit(5).toArray();
     }
+
 };
 
