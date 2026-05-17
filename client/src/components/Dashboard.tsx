@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUpcoming, getRecentCompleted } from "../api";
 import DataTable from 'react-data-table-component';
 import ScheduledRoutines from "./ScheduledRoutines";
+import HistoryRoutines from "./HistoryRoutines";
 
 const ScheduledPreviewTable = (DataTable as any).default || DataTable;
 const HistoryPreviewTable = (DataTable as any).default || DataTable;
@@ -9,6 +10,8 @@ const HistoryPreviewTable = (DataTable as any).default || DataTable;
 export default function Dashboard() {
     const [scheduledPreview, setScheduledPreview] = useState<Routine[]>([]);
     const [historyPreview, setHistoryPreview] = useState<Routine[]>([]);
+    const [displayScheduled, setDisplaySchedulued] = useState(true);
+    const [displayHistory, setDisplayHistory] = useState(true);
     const [selectedSchedulued, setSelectedScheduled] = useState(false);
     const [selectedHistory, setSelectedHistory] = useState(false);
 
@@ -67,7 +70,7 @@ export default function Dashboard() {
                 const date = new Date(row.completionDate);
                 return date.toLocaleDateString('en-GB');
             },
-        }
+        },
     ];
 
     useEffect(() => {
@@ -85,32 +88,44 @@ export default function Dashboard() {
     }, []);
 
     return (
+        <>
         <div className="dashboard" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
 
-            <div className="scheduled-preview" onClick={() => setSelectedScheduled(true)} style={{border: "2px solid #ccc", borderRadius: "5px", width: "48%"}}>
-                <ScheduledPreviewTable
-                    title="טיפולים קרובים"
-                    columns={columnsUpcoming}
-                    data={scheduledPreview}
-                    striped
-                    noDataComponent={"אין טיפולים קרובים להצגה"}
-                    // onRowClick={() => setSelectedScheduled(true)}
-                />
-            </div>
-            {selectedSchedulued && (<ScheduledRoutines/>)}
-
-            <div className="history-preview" style={{border: "2px solid #ccc", borderRadius: "5px", width: "48%"}}>
-                <HistoryPreviewTable
-                    title="טיפולים אחרונים שבוצעו"
-                    columns={columnsRecentCompleted}
-                    data={historyPreview}
-                    striped
-                    noDataComponent={"אין טיפולים אחרונים שבוצעו להצגה"}
-                    
-                />
-            </div>
-
-
+            {displayScheduled && !selectedHistory && (
+                <div className="scheduled-preview"
+                     style={{border: "2px solid #ccc", borderRadius: "8px", width: "48%", backgroundColor: "lightblue"}}>
+                    <h2 style={{cursor: "pointer"}}
+                        onClick={() => {setSelectedScheduled(true); setDisplaySchedulued(false)}}>
+                            טיפולים קרובים
+                    </h2>
+                    <ScheduledPreviewTable
+                        columns={columnsUpcoming}
+                        data={scheduledPreview}
+                        striped
+                        noDataComponent={"אין טיפולים קרובים להצגה"}
+                    />
+                </div>
+            )}
+            
+            {displayHistory && !selectedSchedulued && (
+                <div className="history-preview"
+                     style={{border: "2px solid #ccc", borderRadius: "8px", width: "48%", backgroundColor: "lightgreen"}}>
+                    <h2 style={{cursor: "pointer"}}
+                        onClick={() => {setSelectedHistory(true); setDisplayHistory(false)}}>
+                            טיפולים אחרונים שבוצעו
+                    </h2>
+                    <HistoryPreviewTable
+                        columns={columnsRecentCompleted}
+                        data={historyPreview}
+                        striped
+                        noDataComponent={"אין טיפולים אחרונים שבוצעו להצגה"}
+                        
+                    />
+                </div>
+            )}
         </div>
+        {selectedSchedulued && (<ScheduledRoutines/>)}
+        {selectedHistory && (<HistoryRoutines/>)}
+        </>
     )
 }

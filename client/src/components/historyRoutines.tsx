@@ -87,7 +87,7 @@ export default function HistoryRoutines() {
 
     
     return (
-        <>
+        <div>
             <h2>היסטוריית טיפולים</h2>
 
             <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px", marginBottom: "10px"}}>
@@ -121,7 +121,6 @@ export default function HistoryRoutines() {
             </div>
 
 
-{/* maxHeight:"400px", overflowY:"auto", */}
             {/* History Routines Table */}
             <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
                 <HistoryRoutinesTable
@@ -147,6 +146,6 @@ export default function HistoryRoutines() {
                     />
                 )}
             </div>
-        </>
+        </div>
     )
 }

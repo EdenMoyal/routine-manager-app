@@ -2,6 +2,7 @@ import DataTable from 'react-data-table-component';
 import { useEffect, useMemo, useState } from 'react';
 import { getScheduledRoutines } from '../api';
 import RoutineCard from './RoutineCard';
+import CreateRoutine from './RoutineForm';
 
 const ScheduledRoutinesTable = (DataTable as any).default || DataTable;
 
@@ -11,6 +12,8 @@ export default function ScheduledRoutines() {
     const [modalShow, setModalShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState<{year: number, month: number} | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [newRoutineForm, setNewRoutineForm] = useState(false);
+    const [displayRoutineForm, setDisplayRoutineForm] = useState(false);
 
     interface Routine {
             _id: string;
@@ -87,9 +90,11 @@ export default function ScheduledRoutines() {
 
     
     return (
-        <>
+        <div>
+            {!displayRoutineForm && (<>
             <h2>טיפולים מתוכננים</h2>
 
+            
             <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px", marginBottom: "10px"}}>
                 
                 {/* Searching Operation */}
@@ -118,11 +123,15 @@ export default function ScheduledRoutines() {
                         }}
                     />
                 </div>
+
+                {!displayRoutineForm && <button onClick={() => {setNewRoutineForm(true); setDisplayRoutineForm(true)}}>צור טיפול חדש</button>}
             </div>
+            </>)}
+        
+            {newRoutineForm && <CreateRoutine />}
 
-
-{/* maxHeight:"400px", overflowY:"auto", */}
             {/* Scheduled Routines Table */}
+            {!newRoutineForm &&
             <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
                 <ScheduledRoutinesTable
                     columns={columns}
@@ -146,7 +155,7 @@ export default function ScheduledRoutines() {
                         onHide={() => setModalShow(false)}
                     />
                 )}
-            </div>
-        </>
+            </div>}
+        </div>
     )
 }
