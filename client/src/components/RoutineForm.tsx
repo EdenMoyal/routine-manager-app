@@ -15,6 +15,7 @@ export default function CreateRoutine() {
         e.preventDefault();
         try {
             await createRoutine(routine);
+            alert("טיפול נוצר בהצלחה!");
         } catch (error) {
             console.error("Failed to create routine:", error);
         }

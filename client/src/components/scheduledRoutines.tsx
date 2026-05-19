@@ -2,7 +2,7 @@ import DataTable from 'react-data-table-component';
 import { useEffect, useMemo, useState } from 'react';
 import { getScheduledRoutines } from '../api';
 import RoutineCard from './RoutineCard';
-import CreateRoutine from './RoutineForm';
+import { useNavigate } from 'react-router-dom';
 
 const ScheduledRoutinesTable = (DataTable as any).default || DataTable;
 
@@ -12,8 +12,7 @@ export default function ScheduledRoutines() {
     const [modalShow, setModalShow] = useState(false);
     const [selectedDate, setSelectedDate] = useState<{year: number, month: number} | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [newRoutineForm, setNewRoutineForm] = useState(false);
-    const [displayRoutineForm, setDisplayRoutineForm] = useState(false);
+    const navigate = useNavigate();
 
     interface Routine {
             _id: string;
@@ -91,7 +90,6 @@ export default function ScheduledRoutines() {
     
     return (
         <div>
-            {!displayRoutineForm && (<>
             <h2>טיפולים מתוכננים</h2>
 
             
@@ -124,14 +122,11 @@ export default function ScheduledRoutines() {
                     />
                 </div>
 
-                {!displayRoutineForm && <button onClick={() => {setNewRoutineForm(true); setDisplayRoutineForm(true)}}>צור טיפול חדש</button>}
+                <button onClick={() => navigate("/form")}>צור טיפול חדש</button>
             </div>
-            </>)}
-        
-            {newRoutineForm && <CreateRoutine />}
+
 
             {/* Scheduled Routines Table */}
-            {!newRoutineForm &&
             <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
                 <ScheduledRoutinesTable
                     columns={columns}
@@ -155,7 +150,7 @@ export default function ScheduledRoutines() {
                         onHide={() => setModalShow(false)}
                     />
                 )}
-            </div>}
+            </div>
         </div>
     )
 }

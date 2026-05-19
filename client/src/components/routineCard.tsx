@@ -58,7 +58,7 @@ export default function DisplayRoutineData(props: IProps) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             style={{margin: "auto", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", 
-                    width: "fit-content", minWidth: "600px", height: "fit-content", minHeight: "400px", 
+                    width: "fit-content", minWidth: "600px", height: "fit-content", minHeight: "420px", 
                     backgroundColor: "white", borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,.5)"}}
         >
             <Modal.Header>
@@ -74,6 +74,8 @@ export default function DisplayRoutineData(props: IProps) {
                     <p><b>תאריך מתוכנן: </b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
                     <p><b>משך טיפול: </b> {routineData.duration} שעות</p>
                     <p><b>שם מבצע: </b> {routineData.completedBy}</p>
+                    <p hidden={!routineData.isCompleted}><b>תאריך ביצוע: 
+                        </b> {routineData.completionDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
                     <div style={{display:"flex", gap: "10px"}}>
                         <input 
                             type="text"
@@ -89,12 +91,11 @@ export default function DisplayRoutineData(props: IProps) {
                         >
                             אישור ביצוע וסגירה
                         </button>
-                    </div>
-                    
+                    </div>                  
                 </div>
             </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={props.onHide} style={{direction: "ltr"}}>סגירה</Button>
+            <Modal.Footer style={{position: "absolute", left: "20px", bottom: "20px"}}>
+                <Button onClick={props.onHide}>סגירה</Button>
             </Modal.Footer>
         </Modal>
     )
