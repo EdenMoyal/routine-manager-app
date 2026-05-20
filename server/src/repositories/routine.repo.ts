@@ -85,6 +85,11 @@ export const routineRepository = {
     findRecentCompleted: async () => {
         const db = getDB();
         return await db.collection<IRoutine>(COLLECTION_NAME).find({ isCompleted: true }).sort({ completionDate: -1 }).limit(5).toArray();
+    },
+
+    countRoutines: async () => {
+        const db = getDB();
+        return await db.collection<IRoutine>(COLLECTION_NAME).countDocuments();
     }
 
 };

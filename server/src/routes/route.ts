@@ -41,4 +41,7 @@ routineRoutes.get('/upcoming', routineController.getUpcomingC);
 // Route to get recent completed routines (for dashboard preview)
 routineRoutes.get('/recent-completed', routineController.getRecentCompletedC);
 
+// Route to generate a new routine id
+routineRoutes.get('/new-id', routineController.getNewIdC);
+
 export default routineRoutes;

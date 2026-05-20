@@ -15,3 +15,4 @@ export const filterRoutines = (year: number, month: number) => api.get(`/filter/
 export const sortRoutines = (key: string) => api.get(`/sort/${key}`);
 export const getUpcoming = () => api.get("/upcoming");
 export const getRecentCompleted = () => api.get("/recent-completed");
+export const getNewId = () => api.get("/new-id");

@@ -14,9 +14,3 @@ export interface IRoutine {
     completedBy: string,
     completionDate: string
 };
-
-// RoutineId number model
-export interface IRoutineId {
-    _id?: ObjectId
-    routineIdNum: number
-};

@@ -1,26 +1,21 @@
 import { routineRepository } from '../repositories/routine.repo';
 import { IRoutine } from '../models/routine.model';
 
-const initialID: string = "MR000000";
-let currentID: string = initialID;
-
 // Service layer for handling routine business logic.
+
+export const generateNewId: () => Promise<string> = async () => {
+    let routineCount: number = await routineRepository.countRoutines();
+    let newId: string = "MR" + (routineCount + 1).toString().padStart(6, '0');
+    return newId;
+}
 
 export const routineService = {
     // Creating a new routine
     createNewRoutine: async (routineData: Partial<IRoutine>) => {
         if (!routineData.assetName) throw new Error("Asset name and scheduled date are required");
 
-        let generateRoutineId = (): string =>  {
-            let extractedIDNum: number = Number(currentID.slice(2,currentID.length));
-            let newID: string = "MR" + (extractedIDNum + 1).toString().padStart(6, '0');
-
-            currentID = newID;
-            return currentID;
-        };
-
         const newRoutine: IRoutine = {
-            routineId: generateRoutineId(),
+            routineId: await generateNewId(),
             assetName: routineData.assetName,
             location: routineData.location || "",
             scheduledDate: routineData.scheduledDate ? (new Date(routineData.scheduledDate)).toISOString() : (new Date()).toISOString(),

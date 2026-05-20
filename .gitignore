@@ -1,5 +1,3 @@
 .env
 **/ .env
-server/src/notes.txt
 server/src/apiTest.http
-server/src/test_file.js

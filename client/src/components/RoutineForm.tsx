@@ -1,5 +1,5 @@
-import { createRoutine } from "../api";
-import { useState } from "react";
+import { createRoutine, getNewId } from "../api";
+import { useState, useEffect } from "react";
 import React from "react";
 
 export default function CreateRoutine() {
@@ -10,6 +10,14 @@ export default function CreateRoutine() {
         scheduledDate: "" as string,
         duration: 0 as number
     });
+
+    useEffect(() => {
+        const fetchNewId = async () => {
+            const newId = await getNewId();
+            setRoutine({ ...routine, routineId: newId.data || newId });
+        };
+        fetchNewId();
+    }, []);
 
     const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
@@ -32,7 +40,8 @@ export default function CreateRoutine() {
                 <label>מספר טיפול:</label>
                 <input type="text"
                     id="routine-id-auto"
-                    disabled />
+                    disabled
+                    placeholder={routine.routineId} />
 
                 <label>שם נכס:</label>
                 <input type="text"
@@ -42,7 +51,7 @@ export default function CreateRoutine() {
                     placeholder="הזן שם נכס"
                     required />
 
-                <label>מיקום:</label>
+                <label>מחלקה/קו:</label>
                 <input type="text"
                     id="location-input"
                     value={routine.location}
@@ -68,7 +77,7 @@ export default function CreateRoutine() {
                     required />
 
                 <button type="button"
-                        onClick={() => setRoutine({ ...routine, assetName: "", location: "", scheduledDate: "", duration: 0 })}>
+                        onClick={() => setRoutine({ ...routine, routineId: "", assetName: "", location: "", scheduledDate: "", duration: 0 })}>
                         איפוס נתונים
                 </button>
 

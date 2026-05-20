@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <div className="app-container">
         <Link to="/" style={{ textDecoration: "none", color: "black" }}>
-          <h1>מערכת ניהול טיפולים</h1>
+          <h1 className="app-header">מערכת ניהול טיפולים</h1>
         </Link>
 
         <Routes>

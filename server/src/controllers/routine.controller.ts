@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { routineService } from '../services/routine.service';
-import { ObjectId } from 'mongodb';
+import { generateNewId } from '../services/routine.service';
 
 // Controller layer for handling HTTP requests.
 
@@ -130,6 +130,15 @@ export const routineController = {
     getRecentCompletedC: async (req: Request, res: Response) => {
         try {
             const result = await routineService.findRecentCompletedRoutines();
+            res.status(200).json(result);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    },
+
+    getNewIdC: async (req: Request, res: Response) => {
+        try {
+            const result = await generateNewId();
             res.status(200).json(result);
         } catch (error: any) {
             res.status(500).json({ message: error.message });

@@ -4,13 +4,10 @@ import { MongoClient, Db } from 'mongodb';
 
 let db: Db;
 
-let RoutineIdDb: Db;
-
 export const connectDB = async (): Promise<void> => {
     const client = new MongoClient(process.env.MONGO_URI as string);
     await client.connect();
     db = client.db('RoutinesDB');
-    RoutineIdDb = client.db('RoutineID');
     console.log('Successfully connected to MongoDB.');
 };
 
