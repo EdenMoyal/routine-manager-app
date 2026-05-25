@@ -89,7 +89,7 @@ export default function ScheduledRoutines() {
 
     
     return (
-        <div>
+        <div className="schedulued-routines-container">
             <h2>טיפולים מתוכננים</h2>
 
             

@@ -45,6 +45,7 @@ export default function DisplayRoutineData(props: IProps) {
                 completedBy: routineData.completedBy
             });
             props.onHide();
+            window.location.reload();
         } catch (error) {
             console.error("שגיאה בעדכון:", error);
         }

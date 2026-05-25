@@ -83,12 +83,13 @@ export default function Dashboard() {
         fetchRoutineData();
     }, []);
 
-    return (
-        <div className="dashboard" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
 
-                <div className="scheduled-preview"
-                     style={{border: "2px solid #ccc", borderRadius: "8px", width: "48%", backgroundColor: "lightblue"}}>
-                    <h2 style={{cursor: "pointer"}} onClick={() => navigate("/scheduled")}>
+    return (
+        <div className="dashboard flex flex-row justify-between mt-[60px]">
+
+                {/* Scheduled preview table */}
+                <div className="preview-scheduled border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#add8e6] shadow-md hover:shadow-xl">
+                    <h2 className="preview-scheduled-header p-[3px] cursor-pointer" onClick={() => navigate("/scheduled")}>
                         טיפולים קרובים</h2>
                     <ScheduledPreviewTable
                         columns={columnsUpcoming}
@@ -98,9 +99,9 @@ export default function Dashboard() {
                     />
                 </div>
 
-                <div className="history-preview"
-                     style={{border: "2px solid #ccc", borderRadius: "8px", width: "48%", backgroundColor: "lightgreen"}}>
-                    <h2 style={{cursor: "pointer"}} onClick={() => navigate("/history")}>
+                {/* History preview table */}
+                <div className="preview-history border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#90ee90] shadow-md hover:shadow-xl">
+                    <h2 className="preview-history-header p-[3px] cursor-pointer" onClick={() => navigate("/history")}>
                         טיפולים אחרונים שבוצעו</h2>
                     <HistoryPreviewTable
                         columns={columnsRecentCompleted}

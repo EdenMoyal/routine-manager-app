@@ -23,29 +23,28 @@ export default function CreateRoutine() {
         e.preventDefault();
         try {
             await createRoutine(routine);
-            alert("טיפול נוצר בהצלחה!");
+            window.location.reload();
         } catch (error) {
             console.error("Failed to create routine:", error);
         }
     };
 
     return (
-        <div className="routine-card">
+        <div>
             <h2>צור טיפול חדש</h2>
 
             <form onSubmit={handleSubmit}
-                id="create-routine-form"
-                style={{direction:"rtl",display:"flex", justifyContent:"center", flexDirection:"column", gap:"10px", maxWidth:"200px", margin:"0 auto"}}>
+                className="create-routine-form flex flex-col justify-center justify-items-center gap-[10px] mx-auto">
                 
                 <label>מספר טיפול:</label>
                 <input type="text"
-                    id="routine-id-auto"
+                    className="routine-id-auto bg-gray-100"
                     disabled
                     placeholder={routine.routineId} />
 
                 <label>שם נכס:</label>
                 <input type="text"
-                    id="asset-name-input"
+                    className="asset-name-input"
                     value={routine.assetName}
                     onChange={(e) => setRoutine({ ...routine, assetName: e.target.value })}
                     placeholder="הזן שם נכס"
@@ -53,7 +52,7 @@ export default function CreateRoutine() {
 
                 <label>מחלקה/קו:</label>
                 <input type="text"
-                    id="location-input"
+                    className="location-input"
                     value={routine.location}
                     onChange={(e) => setRoutine({ ...routine, location: e.target.value })}
                     placeholder="הזן מחלקה/קו"
@@ -61,7 +60,7 @@ export default function CreateRoutine() {
 
                 <label>תאריך מתוכנן:</label>
                 <input type="date"
-                    id="scheduled-date-input"
+                    className="scheduled-date-input"
                     value={routine.scheduledDate}
                     onChange={(e) => setRoutine({ ...routine, scheduledDate: e.target.value })}
                     placeholder="בחר תאריך"
@@ -69,7 +68,7 @@ export default function CreateRoutine() {
 
                 <label>משך טיפול מוערך [שעות]:</label>
                 <input type="number"
-                    id="duration-input"
+                    className="duration-input"
                     value={routine.duration}
                     onChange={(e) => setRoutine({ ...routine, duration: parseFloat(e.target.value) })}
                     min="0"
