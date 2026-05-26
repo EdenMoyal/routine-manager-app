@@ -13,8 +13,8 @@ export default function CreateRoutine() {
 
     useEffect(() => {
         const fetchNewId = async () => {
-            const newId = await getNewId();
-            setRoutine({ ...routine, routineId: newId.data || newId });
+            // const newId = await getNewId();
+            // setRoutine({ ...routine, routineId: newId.data || newId });
         };
         fetchNewId();
     }, []);
