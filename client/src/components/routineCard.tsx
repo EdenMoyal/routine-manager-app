@@ -51,6 +51,8 @@ export default function DisplayRoutineData(props: IProps) {
         }
     };
 
+    const bgColor_RGB = routineData.isCompleted ? "rgb(18, 204, 117, 0.4)" : "rgb(33, 157, 222, 0.4)";
+
 
     return (
         <Modal
@@ -58,27 +60,27 @@ export default function DisplayRoutineData(props: IProps) {
             size="lg"
             aria-labelledby="contained-modal-title-vcenter"
             centered
-            style={{margin: "auto", position: "absolute", top: "0", left: "0", right: "0", bottom: "0", 
-                    width: "fit-content", minWidth: "600px", height: "fit-content", minHeight: "420px", 
-                    backgroundColor: "white", borderRadius: "5px", boxShadow: "0 5px 15px rgba(0,0,0,.5)"}}
+            className="routine-modal m-auto absolute inset-0
+            w-[600px] h-fit min-h-[420px] bg-white border border-[#ccc] rounded-md shadow-md focus:outline-none focus:ring-0 focus-visible:outline-none"
         >
-            <Modal.Header>
-                <Modal.Title style={{fontSize: "24px", fontWeight: "bold", padding: "10px"}}>
+            <Modal.Header className="routine-modal-header rounded-t-md" style={{backgroundColor: bgColor_RGB}}>
+                <Modal.Title className="routine-modal-title text-2xl font-bold p-[10px] text-center w-full">
                     פרטי טיפול
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div className="routine-card" style={{display: "flex", flexDirection: "column", gap: "15px", padding: "20px"}}>
-                    <p><b>מספר טיפול: </b> {routineData.routineId}</p>
-                    <p><b>שם נכס: </b> {routineData.assetName}</p>
-                    <p><b>מחלקה/קו: </b> {routineData.location}</p>
-                    <p><b>תאריך מתוכנן: </b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
-                    <p><b>משך טיפול: </b> {routineData.duration} שעות</p>
-                    <p><b>שם מבצע: </b> {routineData.completedBy}</p>
-                    <p hidden={!routineData.isCompleted}><b>תאריך ביצוע: 
+                <div className="routine-card flex flex-col gap-[15px] p-[20px]">
+                    <p><b>מספר טיפול:&nbsp;</b> {routineData.routineId}</p>
+                    <p><b>שם נכס:&nbsp;</b> {routineData.assetName}</p>
+                    <p><b>מחלקה/קו:&nbsp;</b> {routineData.location}</p>
+                    <p><b>תאריך מתוכנן:&nbsp;</b> {routineData.scheduledDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
+                    <p><b>משך טיפול:&nbsp;</b> {routineData.duration} שעות</p>
+                    <p><b>שם מבצע:&nbsp;</b> {routineData.completedBy}</p>
+                    <p hidden={!routineData.isCompleted}><b>תאריך ביצוע:&nbsp;
                         </b> {routineData.completionDate?.toString().replace(/T.*/, '').split('-').reverse().join('/')}</p>
                     <div style={{display:"flex", gap: "10px"}}>
-                        <input 
+                        <input
+                            className="routine-modal-input mt-[5px]"
                             type="text"
                             placeholder="הזן שם מבצע..."
                             value={routineData.completedBy || ''}
@@ -86,6 +88,7 @@ export default function DisplayRoutineData(props: IProps) {
                             hidden={routineData.isCompleted}
                         />
                         <button
+                            className="complete-button bg-[#ccc]"
                             onClick={handleComplete}
                             disabled={!routineData.completedBy || routineData.completedBy.trim() === ''}
                             hidden={routineData.isCompleted}
@@ -95,8 +98,8 @@ export default function DisplayRoutineData(props: IProps) {
                     </div>                  
                 </div>
             </Modal.Body>
-            <Modal.Footer style={{position: "absolute", left: "20px", bottom: "20px"}}>
-                <Button onClick={props.onHide}>סגירה</Button>
+            <Modal.Footer className="routine-modal-footer absolute left-[20px] bottom-[20px]">
+                <Button className="routine-modal-close-button bg-[#ccc]" onClick={props.onHide}>סגירה</Button>
             </Modal.Footer>
         </Modal>
     )

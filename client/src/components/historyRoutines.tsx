@@ -87,13 +87,13 @@ export default function HistoryRoutines() {
 
     
     return (
-        <div>
-            <h2>היסטוריית טיפולים</h2>
+        <div className="history-routines-container border-1 border-[#ccc] rounded-lg bg-[#12cc75]">
+            <h2 className="history-routines-title text-right pr-[20px] p-[10px]">היסטוריית טיפולים</h2>
 
-            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px", marginBottom: "10px"}}>
+            <div className="operations-container flex flex-row justify-end gap-[60px] ml-[30px] mb-[14px]">
                 
                 {/* Searching Operation */}
-                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>חפש שם נכס:</label>
                     <input 
                         type="text"
@@ -104,7 +104,7 @@ export default function HistoryRoutines() {
                 </div>
                 
                 {/* Filtering Operation */}
-                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>סנן לפי חודש ושנה:</label>
                     <input 
                         type="month"
@@ -122,7 +122,7 @@ export default function HistoryRoutines() {
 
 
             {/* History Routines Table */}
-            <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
+            <div>
                 <HistoryRoutinesTable
                     columns={columns}
                     data={filteredRoutines}
@@ -135,6 +135,18 @@ export default function HistoryRoutines() {
                         setSelectedRow(row);
                         setModalShow(true);
                     }}
+                    customStyles={{
+                        headRow: {
+                            style: {
+                                color: '#36343a',
+                                fontWeight: 'bold',
+                                fontSize: '16px',
+                            },},
+                        cells: {
+                            style: {
+                                fontSize: '14px',
+                            },}
+                        }}
                 />
 
                 {/* Modal to display selected routine data */}

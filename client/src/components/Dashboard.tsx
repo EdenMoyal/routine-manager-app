@@ -85,10 +85,10 @@ export default function Dashboard() {
 
 
     return (
-        <div className="dashboard flex flex-row justify-between mt-[60px]">
+        <div className="dashboard flex flex-row justify-between mt-[80px]">
 
                 {/* Scheduled preview table */}
-                <div className="preview-scheduled border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#add8e6] shadow-md hover:shadow-xl">
+                <div className="preview-scheduled border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#219fde] shadow-md hover:shadow-xl">
                     <h2 className="preview-scheduled-header p-[3px] cursor-pointer" onClick={() => navigate("/scheduled")}>
                         טיפולים קרובים</h2>
                     <ScheduledPreviewTable
@@ -96,11 +96,19 @@ export default function Dashboard() {
                         data={scheduledPreview}
                         striped
                         noDataComponent={"אין טיפולים קרובים להצגה"}
+                        customStyles={{
+                            headRow: {
+                                style: {
+                                    color: '#36343a',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                },}
+                            }}
                     />
                 </div>
 
                 {/* History preview table */}
-                <div className="preview-history border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#90ee90] shadow-md hover:shadow-xl">
+                <div className="preview-history border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#12cc75] shadow-md hover:shadow-xl">
                     <h2 className="preview-history-header p-[3px] cursor-pointer" onClick={() => navigate("/history")}>
                         טיפולים אחרונים שבוצעו</h2>
                     <HistoryPreviewTable
@@ -108,6 +116,14 @@ export default function Dashboard() {
                         data={historyPreview}
                         striped
                         noDataComponent={"אין טיפולים אחרונים שבוצעו להצגה"}
+                        customStyles={{
+                            headRow: {
+                                style: {
+                                    color: '#36343a',
+                                    fontWeight: 'bold',
+                                    fontSize: '14px',
+                                },}
+                            }}
                     />
                 </div>
         </div>

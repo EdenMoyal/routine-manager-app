@@ -89,14 +89,15 @@ export default function ScheduledRoutines() {
 
     
     return (
-        <div className="schedulued-routines-container">
-            <h2>טיפולים מתוכננים</h2>
+        <div className="schedulued-routines-container border-1 border-[#ccc] rounded-lg bg-[#219fde]">
+            <h2 className="schedulued-routines-title text-right pr-[20px] p-[10px]">טיפולים מתוכננים</h2>
 
-            
-            <div className="operations-container" style={{display: "flex", flexDirection: "row", justifyContent: "left", gap: "60px", marginLeft: "50px", marginBottom: "10px"}}>
+            <div className="operations-container flex flex-row justify-end gap-[60px] ml-[30px] mb-[10px]">
+
+                <button className="create-routine-button bg-[#fbb800]" onClick={() => navigate("/form")}>צור טיפול חדש</button>
                 
                 {/* Searching Operation */}
-                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>חפש שם נכס:</label>
                     <input 
                         type="text"
@@ -107,7 +108,7 @@ export default function ScheduledRoutines() {
                 </div>
                 
                 {/* Filtering Operation */}
-                <div className="operation" style={{display: "flex", flexDirection: "row", alignItems: "center", gap: "10px"}}>
+                <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>סנן לפי חודש ושנה:</label>
                     <input 
                         type="month"
@@ -121,13 +122,11 @@ export default function ScheduledRoutines() {
                         }}
                     />
                 </div>
-
-                <button onClick={() => navigate("/form")}>צור טיפול חדש</button>
             </div>
 
 
             {/* Scheduled Routines Table */}
-            <div style={{border: "2px solid #ccc", borderRadius: "5px"}}>
+            <div>
                 <ScheduledRoutinesTable
                     columns={columns}
                     data={filteredRoutines}
@@ -139,6 +138,18 @@ export default function ScheduledRoutines() {
                     onRowClicked={(row: Routine) => {
                         setSelectedRow(row);
                         setModalShow(true);
+                    }}
+                    customStyles={{
+                        headRow: {
+                            style: {
+                                color: '#36343a',
+                                fontWeight: 'bold',
+                                fontSize: '16px',
+                            },},
+                        cells: {
+                            style: {
+                                fontSize: '14px',
+                            },}
                     }}
                 />
 
