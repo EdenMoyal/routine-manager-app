@@ -30,57 +30,57 @@ export default function CreateRoutine() {
     };
 
     return (
-        <div>
-            <h2>צור טיפול חדש</h2>
+        <div className="routine-form-container flex flex-col items-center p-[20px] bg-white border-1 border-[#ccc] rounded-lg">
+            <h2 className="routine-form-header pb-[30px] p-[10px]">צור טיפול חדש</h2>
 
             <form onSubmit={handleSubmit}
-                className="create-routine-form flex flex-col justify-center justify-items-center gap-[10px] mx-auto">
+                className="create-routine-form grid grid-cols-2 gap-[25px] ">
                 
-                <label>מספר טיפול:</label>
+                <label className="routine-id-label text-right">מספר טיפול:</label>
                 <input type="text"
                     className="routine-id-auto bg-gray-100"
                     disabled
                     placeholder={routine.routineId} />
 
-                <label>שם נכס:</label>
+                <label className="asset-name-label text-right">שם נכס:</label>
                 <input type="text"
-                    className="asset-name-input"
+                    className="asset-name-input bg-white"
                     value={routine.assetName}
                     onChange={(e) => setRoutine({ ...routine, assetName: e.target.value })}
                     placeholder="הזן שם נכס"
                     required />
 
-                <label>מחלקה/קו:</label>
+                <label className="location-label text-right">מחלקה/קו:</label>
                 <input type="text"
-                    className="location-input"
+                    className="location-input bg-white"
                     value={routine.location}
                     onChange={(e) => setRoutine({ ...routine, location: e.target.value })}
                     placeholder="הזן מחלקה/קו"
                     required />
 
-                <label>תאריך מתוכנן:</label>
+                <label className="scheduled-date-label text-right">תאריך מתוכנן:</label>
                 <input type="date"
-                    className="scheduled-date-input"
+                    className="scheduled-date-input bg-white"
                     value={routine.scheduledDate}
                     onChange={(e) => setRoutine({ ...routine, scheduledDate: e.target.value })}
                     placeholder="בחר תאריך"
                     required />
 
-                <label>משך טיפול מוערך [שעות]:</label>
+                <label className="duration-label text-right">משך טיפול [שעות]:</label>
                 <input type="number"
-                    className="duration-input"
+                    className="duration-input bg-white"
                     value={routine.duration}
                     onChange={(e) => setRoutine({ ...routine, duration: parseFloat(e.target.value) })}
                     min="0"
                     step={0.5}
                     required />
 
-                <button type="button"
-                        onClick={() => setRoutine({ ...routine, routineId: "", assetName: "", location: "", scheduledDate: "", duration: 0 })}>
+                <button className="reset-button col-span-2 bg-[#ccc] mr-[120px] ml-[120px]" type="button"
+                        onClick={() => setRoutine({ ...routine, assetName: "", location: "", scheduledDate: "", duration: 0 })}>
                         איפוס נתונים
                 </button>
 
-                <button type="submit">
+                <button className="create-routine-button col-span-2 bg-[#35cc3b] mr-[120px] ml-[120px]" type="submit">
                         צור טיפול
                 </button>
             </form>

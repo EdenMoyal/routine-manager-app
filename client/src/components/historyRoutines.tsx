@@ -95,7 +95,8 @@ export default function HistoryRoutines() {
                 {/* Searching Operation */}
                 <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>חפש שם נכס:</label>
-                    <input 
+                    <input
+                        className="search-input bg-white"
                         type="text"
                         placeholder="הזן שם נכס"
                         value={searchQuery}
@@ -106,7 +107,8 @@ export default function HistoryRoutines() {
                 {/* Filtering Operation */}
                 <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">
                     <label>סנן לפי חודש ושנה:</label>
-                    <input 
+                    <input
+                        className="filter-input bg-white"
                         type="month"
                         onChange={(e) => {
                             if (!e.target.value) {
