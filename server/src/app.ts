@@ -13,7 +13,7 @@ app.use("/api/routines", routineRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
-app.get('/:splat*', (req, res) => {
+app.get(/.*$/, (req, res) => {
   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
 });
 
