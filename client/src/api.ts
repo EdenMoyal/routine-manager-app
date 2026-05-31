@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const API_BASE_URL = import.meta.env.DEV 
+  ? 'http://localhost:4000' 
+  : 'https://routine-manager-app-2.onrender.com';
+
 const api = axios.create({
-    baseURL: "http://localhost:4000/api/routines"
+    baseURL: `${API_BASE_URL}/api/routines`
 });
 
 export const createRoutine = (data: any) => api.post("/", data);
