@@ -87,12 +87,12 @@ export default function ScheduledRoutines() {
         });
     }, [routineData, selectedDate, searchQuery]);
 
-    
-    return (
-        <div className="schedulued-routines-container border-1 border-[#ccc] rounded-lg bg-[#219fde]">
-            <h2 className="schedulued-routines-title text-right pr-[20px] p-[10px]">טיפולים מתוכננים</h2>
 
-            <div className="operations-container flex flex-row justify-end gap-[60px] ml-[30px] mb-[10px]">
+    return (
+        <div className="routines-container schedulued bg-[#219fde]">
+            <h2 className="schedulued-routines-title text-right pr-[20px] p-[10px]">טיפולים מתוכננים</h2>
+            
+            <div className="operations-container">
 
                 <button className="create-routine-button bg-[#fbb800]" onClick={() => navigate("/form")}>צור טיפול חדש</button>
                 

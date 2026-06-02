@@ -136,3 +136,75 @@ body:has(.routine-modal) {
   overflow: hidden;
   scrollbar-gutter: stable;
 }
+
+.dashboard {
+  display: flex;
+  margin-top: 80px;
+  justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+
+  @media (min-width: 769px) {
+    flex-direction: row;
+  }
+}
+
+.preview {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  height: fit-content;
+  box-shadow: 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  }
+
+  @media (max-width: 768px) {
+    width: 96%;
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 769px) {
+    width: 48%;
+  }
+}
+
+.routines-container {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  max-width: 100%;
+  margin: 0 10px;
+}
+
+.operations-container {
+  display: flex;
+  margin-left: 30px;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+    justify-content:flex-end;
+    align-items:first baseline;
+    margin-right: 30px;
+  }
+
+  @media (min-width: 769px) {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: end;
+  }
+}
+
+.routine-modal {
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+
+  @media (min-width: 769px) {
+    width: 700px;
+  }
+}

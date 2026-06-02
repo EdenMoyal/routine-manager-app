@@ -85,10 +85,10 @@ export default function Dashboard() {
 
 
     return (
-        <div className="dashboard flex flex-row justify-between mt-[80px]">
+        <div className="dashboard">
 
                 {/* Scheduled preview table */}
-                <div className="preview-scheduled border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#219fde] shadow-md hover:shadow-xl">
+                <div className="preview scheduled bg-[#219fde]">
                     <h2 className="preview-scheduled-header p-[3px] cursor-pointer" onClick={() => navigate("/scheduled")}>
                         טיפולים קרובים</h2>
                     <ScheduledPreviewTable
@@ -106,9 +106,9 @@ export default function Dashboard() {
                             }}
                     />
                 </div>
-
+ 
                 {/* History preview table */}
-                <div className="preview-history border-1 border-[#ccc] rounded-lg w-[48%] h-fit bg-[#12cc75] shadow-md hover:shadow-xl">
+                <div className="preview history bg-[#12cc75]">
                     <h2 className="preview-history-header p-[3px] cursor-pointer" onClick={() => navigate("/history")}>
                         טיפולים אחרונים שבוצעו</h2>
                     <HistoryPreviewTable

@@ -85,12 +85,12 @@ export default function HistoryRoutines() {
         });
     }, [routineData, selectedDate, searchQuery]);
 
-    
+
     return (
-        <div className="history-routines-container border-1 border-[#ccc] rounded-lg bg-[#12cc75]">
+        <div className="routines-container history bg-[#12cc75]">
             <h2 className="history-routines-title text-right pr-[20px] p-[10px]">היסטוריית טיפולים</h2>
 
-            <div className="operations-container flex flex-row justify-end gap-[60px] ml-[30px] mb-[14px]">
+            <div className="operations-container">
                 
                 {/* Searching Operation */}
                 <div className="operation flex flex-row align-items-center gap-[10px] mt-[6px]">

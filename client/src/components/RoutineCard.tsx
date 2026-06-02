@@ -61,7 +61,8 @@ export default function DisplayRoutineData(props: IProps) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
             className="routine-modal m-auto absolute inset-0
-            w-[600px] h-fit min-h-[420px] bg-white border border-[#ccc] rounded-md shadow-md focus:outline-none focus:ring-0 focus-visible:outline-none"
+            h-fit min-h-[420px] bg-white border border-[#ccc] rounded-md shadow-md
+            focus:outline-none focus:ring-0 focus-visible:outline-none"
         >
             <Modal.Header className="routine-modal-header rounded-t-md" style={{backgroundColor: bgColor_RGB}}>
                 <Modal.Title className="routine-modal-title text-2xl font-bold p-[10px] text-center w-full">
